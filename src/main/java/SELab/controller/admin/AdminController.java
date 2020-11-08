@@ -4,6 +4,7 @@ import SELab.config.RemoteServiceConfig;
 import SELab.request.admin.ApplicationRatifyRequest;
 import SELab.service.Service;
 import SELab.utility.response.ResponseWrapper;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class AdminController {
     public AdminController(Service service){this.service = service;}
 
 
+    @ApiOperation(value = "查找未处理的meeting申请", response = ResponseWrapper.class)
     @GetMapping("/admin/queueingApplication")
     public ResponseEntity<?> getqueueingApplication( @RequestHeader("authorization") String token) {
         logger.debug("Get queuing applications by admin");
@@ -42,6 +44,7 @@ public class AdminController {
         return ResponseEntity.ok(service.getqueueingApplication(token));
     }
 
+    @ApiOperation(value = "获取已经处理的meeting申请", response = ResponseWrapper.class)
     @GetMapping("/admin/alreadyApplication")
     public ResponseEntity<?> getalreadyApplication( @RequestHeader("authorization") String token) {
         logger.debug("Get dealed applications by admin");
@@ -56,6 +59,7 @@ public class AdminController {
         return ResponseEntity.ok(service.getalreadyApplication(token));
     }
 
+    @ApiOperation(value = "给会议打分", response = ResponseWrapper.class)
     @PostMapping("/admin/ratify")
     public ResponseEntity<?> applicationRatify(@RequestBody ApplicationRatifyRequest request,  @RequestHeader("authorization") String token) {
         logger.debug("Ratification for Meeting named "+ request.getMeetingName());

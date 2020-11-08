@@ -4,6 +4,8 @@ import SELab.config.RemoteServiceConfig;
 import SELab.request.meeting.MeetingApplicationRequest;
 import SELab.request.meeting.PCMemberInvitationRequest;
 import SELab.service.Service;
+import SELab.utility.response.ResponseWrapper;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ public class MeetingUtilController {
     @Autowired
     public MeetingUtilController(Service service) { this.service = service; }
 
+    @ApiOperation(value = "提交新增meeting的申请", response = ResponseWrapper.class)
     @PostMapping("/meeting/application")
     public ResponseEntity<?> meetingApplication(@RequestBody MeetingApplicationRequest request,  @RequestHeader("authorization") String token) {
         logger.debug("Meeting application: " + request.toString());
@@ -42,6 +45,7 @@ public class MeetingUtilController {
         return ResponseEntity.ok(service.meetingApplication(request, token));
     }
 
+    @ApiOperation(value = "根据meetingName获取会议信息", response = ResponseWrapper.class)
     @GetMapping("/meeting/meetingInfo")
     public ResponseEntity<?> getmeetingInfo(String meetingName,  @RequestHeader("authorization") String token) {
         logger.debug("Meeting Information: " + meetingName);
@@ -56,6 +60,7 @@ public class MeetingUtilController {
         return ResponseEntity.ok(service.getmeetingInfo(meetingName, token));
     }
 
+    @ApiOperation(value = "邀请用户成为pcmember", response = ResponseWrapper.class)
     @PostMapping("/meeting/pcmInvitation")
     public ResponseEntity<?> pcmInvitation(@RequestBody PCMemberInvitationRequest request,  @RequestHeader("authorization") String token) {
         logger.debug("PCMember Invitation: " + request.toString());
@@ -70,6 +75,7 @@ public class MeetingUtilController {
         return ResponseEntity.ok(service.pcmInvitation(request, token));
     }
 
+    @ApiOperation(value = "获取会议所有邀请的状态", response = ResponseWrapper.class)
     @GetMapping("/meeting/invitationStatus")
     public ResponseEntity<?> getInvitationStatus(String meetingName,  @RequestHeader("authorization") String token) {
         logger.debug("Invitation Status: " + meetingName);
@@ -84,6 +90,7 @@ public class MeetingUtilController {
         return ResponseEntity.ok(service.getInvitationStatus(meetingName, token));
     }
 
+    @ApiOperation(value = "根据会议名称和作者获取相应的投稿", response = ResponseWrapper.class)
     @GetMapping("/meeting/submissionList")
     public ResponseEntity<?> getSubmissionList(String authorName,String meetingName,  @RequestHeader("authorization") String token) {
         logger.debug("Submission List");
